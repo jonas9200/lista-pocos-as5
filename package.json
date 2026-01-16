@@ -1,0 +1,29 @@
+{
+  "name": "ags-irrigacao",
+  "version": "2.0.0",
+  "description": "Sistema de gerenciamento de equipamentos de irrigação AGS - Painel Admin e Operador",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "node-fetch": "^2.6.7"
+  },
+  "keywords": [
+    "irrigacao",
+    "equipamentos",
+    "ags",
+    "github",
+    "api",
+    "admin",
+    "operador"
+  ],
+  "author": "AGS Irrigação",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
