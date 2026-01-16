@@ -2,12 +2,12 @@
   {
     "id": "1768587786191",
     "name": "Poço 01",
-    "type": "Pluviômetro",
-    "location": "Ags",
+    "type": "micro",
+    "location": "Água Santa V",
     "url": "https://poco-a06z.onrender.com/",
     "description": "",
     "createdAt": "2026-01-16T18:23:06.191Z",
-    "updatedAt": "2026-01-16T18:23:06.191Z"
+    "updatedAt": "2026-01-16T18:48:55.369Z"
   },
   {
     "id": "1768588906137",
