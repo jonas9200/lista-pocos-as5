@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGS Irrigação - Operador</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e88e5;
+            --secondary: #1565c0;
+            --accent: #4caf50;
+            --light: #f5f5f7;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
+            --info: #2196F3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--accent);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .user-badge {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid var(--success);
+            border-radius: 20px;
+            padding: 8px 16px;
+            display: inline-block;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .equipment-card {
+            background: rgba(30, 30, 50, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            border-left: 4px solid var(--accent);
+        }
+
+        .equipment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            border-left-color: var(--primary);
+        }
+
+        .equipment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .equipment-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .equipment-status {
+            background: var(--success);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .equipment-details {
+            margin-bottom: 15px;
+        }
+
+        .equipment-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #ccc;
+        }
+
+        .detail-value {
+            color: var(--accent);
+        }
+
+        .equipment-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button i {
+            margin-right: 8px;
+        }
+
+        button:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-info { 
+            background: var(--info); 
+        }
+        .btn-info:hover { 
+            background: #1976D2; 
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+        }
+
+        .error-message {
+            background: var(--danger);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 40px;
+            grid-column: 1 / -1;
+            opacity: 0.7;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .back-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard { grid-template-columns: 1fr; }
+            .equipment-actions { flex-direction: column; }
+            .stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-tint"></i> AGS Irrigação</h1>
+            <p class="subtitle">Painel do Operador</p>
+            <div class="user-badge">
+              <i class="fas fa-user"></i>
+            </div>
+        </header>
+
+        <div class="stats" id="stats-container">
+            <div class="stat-card">
+                <span class="stat-number" id="total-equipments">0</span>
+                <span class="stat-label">Total de Equipamentos</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="active-equipments">0</span>
+                <span class="stat-label">Equipamentos Ativos</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="pivo-count">0</span>
+                <span class="stat-label">Pivôs Centrais</span>
+            </div>
+        </div>
+
+        <div id="message-container"></div>
+
+        <div class="dashboard" id="equipment-dashboard">
+            <div class="loading" id="loading">
+                <i class="fas fa-spinner fa-spin"></i> Carregando equipamentos...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuração da API
+        const API_BASE_URL = window.location.origin;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const dashboard = document.getElementById('equipment-dashboard');
+            const loading = document.getElementById('loading');
+            const messageContainer = document.getElementById('message-container');
+            const totalEquipments = document.getElementById('total-equipments');
+            const activeEquipments = document.getElementById('active-equipments');
+            const pivoCount = document.getElementById('pivo-count');
+
+            let equipments = [];
+
+            // Função para mostrar mensagens
+            function showMessage(message, type = 'success') {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+                messageDiv.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation-triangle'}"></i> ${message}`;
+                
+                messageContainer.innerHTML = '';
+                messageContainer.appendChild(messageDiv);
+                
+                setTimeout(() => {
+                    messageContainer.innerHTML = '';
+                }, 5000);
+            }
+
+            // Função para atualizar estatísticas
+            function updateStats() {
+                totalEquipments.textContent = equipments.length;
+                activeEquipments.textContent = equipments.length;
+                
+                const pivoCountValue = equipments.filter(eq => 
+                    eq.type === 'Pivô Central' || eq.type === 'pivo'
+                ).length;
+                pivoCount.textContent = pivoCountValue;
+            }
+
+            // Funções da API
+            async function apiRequest(endpoint) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api${endpoint}`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Erro ${response.status}`);
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error('Erro na requisição:', error);
+                    showMessage('Erro ao carregar equipamentos', 'error');
+                    throw error;
+                }
+            }
+
+            async function loadEquipments() {
+                try {
+                    showLoading();
+                    equipments = await apiRequest('/equipments');
+                    render();
+                    updateStats();
+                } catch (error) {
+                    showError('Falha ao carregar equipamentos. Tente atualizar a página.');
+                }
+            }
+
+            function showLoading() {
+                dashboard.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Carregando equipamentos...</div>';
+            }
+
+            function showError(message) {
+                dashboard.innerHTML = `<div class="error-message">${message}</div>`;
+            }
+
+            function render() {
+                dashboard.innerHTML = '';
+                
+                if (equipments.length === 0) {
+                    dashboard.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>Nenhum equipamento cadastrado</p>
+                            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.7;">
+                                Aguarde o administrador adicionar os equipamentos
+                            </p>
+                        </div>`;
+                    return;
+                }
+
+                equipments.forEach(eq => {
+                    const card = document.createElement('div');
+                    card.className = 'equipment-card';
+                    
+                    // Ícones por tipo
+                    let icon = 'fa-tint';
+                    if (eq.type === 'Pivô Central') icon = 'fa-sync-alt';
+                    else if (eq.type === 'linear') icon = 'fa-arrows-alt-h';
+                    else if (eq.type === 'aspersor') icon = 'fa-shower';
+                    else if (eq.type === 'micro') icon = 'fa-tint-slash';
+
+                    card.innerHTML = `
+                        <div class="equipment-header">
+                            <div class="equipment-name">
+                                <i class="fas ${icon}"></i> ${eq.name}
+                            </div>
+                            <div class="equipment-status">
+                                <i class="fas fa-circle"></i> Ativo
+                            </div>
+                        </div>
+                        
+                        <div class="equipment-details">
+                            <div class="equipment-detail">
+                                <span class="detail-label">Tipo:</span>
+                                <span class="detail-value">${eq.type}</span>
+                            </div>
+                            <div class="equipment-detail">
+                                <span class="detail-label">Localização:</span>
+                                <span class="detail-value">${eq.location || 'Não informada'}</span>
+                            </div>
+                            ${eq.description ? `
+                            <div class="equipment-detail">
+                                <span class="detail-label">Descrição:</span>
+                                <span class="detail-value">${eq.description}</span>
+                            </div>` : ''}
+                            <div class="equipment-detail">
+                                <span class="detail-label">Cadastrado em:</span>
+                                <span class="detail-value">${new Date(eq.createdAt).toLocaleDateString('pt-BR')}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="equipment-actions">
+                            <button class="btn-info" data-url="${eq.url}">
+                                <i class="fas fa-external-link-alt"></i> Acessar Painel
+                            </button>
+                        </div>`;
+                    
+                    dashboard.appendChild(card);
+                });
+
+                // Adicionar event listeners para os botões
+                setupEventListeners();
+            }
+
+            function setupEventListeners() {
+                // Event delegation para os botões de acesso
+                dashboard.onclick = (e) => {
+                    const target = e.target.closest('button');
+                    if (!target) return;
+
+                    const url = target.dataset.url;
+                    if (url) {
+                        // ABRE NA MESMA GUIA (alteração principal)
+                        window.location.href = url;
+                    }
+                };
+            }
+
+            // Iniciar carregamento
+            loadEquipments();
+
+            // Atualizar a cada 30 segundos (opcional)
+            setInterval(loadEquipments, 30000);
+        });
+    </script>
+</body>
+</html>
