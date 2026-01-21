@@ -8,15 +8,5 @@
     "description": "",
     "createdAt": "2026-01-16T18:23:06.191Z",
     "updatedAt": "2026-01-16T19:42:10.852Z"
-  },
-  {
-    "id": "1768688344517",
-    "name": "Pluviometro  1",
-    "type": "Pluviômetro",
-    "location": "rb",
-    "url": "https://clima-faz-ribeirao-preto.onrender.com",
-    "description": "",
-    "createdAt": "2026-01-17T22:19:04.517Z",
-    "updatedAt": "2026-01-17T22:19:04.517Z"
   }
 ]
