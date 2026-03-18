@@ -8,15 +8,5 @@
     "description": "",
     "createdAt": "2026-01-16T18:23:06.191Z",
     "updatedAt": "2026-01-16T19:42:10.852Z"
-  },
-  {
-    "id": "1773841077588",
-    "name": "Poço C_2",
-    "type": "Poço",
-    "location": "As5",
-    "url": "https://poco-c2.onrender.com/",
-    "description": "",
-    "createdAt": "2026-03-18T13:37:57.588Z",
-    "updatedAt": "2026-03-18T13:37:57.588Z"
   }
 ]
