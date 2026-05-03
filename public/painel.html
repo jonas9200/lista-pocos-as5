@@ -592,8 +592,6 @@ const MQTT_CONFIG = {
     broker:   'wss://mqtt.aguasanta.agr.br',
     username: 'coas',
     password: 'AguaSanta@452',
-    // {ID} é substituído pelo último segmento do nome do equipamento
-    // Ex: "Poco C2" → ID = "C2" → topico: as/poco/C2/dados
     topicPattern: {
         cmd:    'as/poco/{ID}/comando',
         dados:  'as/poco/{ID}/dados',
@@ -817,18 +815,16 @@ function startMqtt(T, equipName) {
         const diasStr = maskToDays(mask);
         closeSchedModal();
         openModal('Enviar nova programação para ' + equipName + '?', {
-            'Ativa':        $('schedEnabled').checked ? 'SIM' : 'NÃO',
-            'Início':       $('schedStart').value,
-            'Parada':       $('schedEnd').value,
-            'Dias':         diasStr,
-            'Comando MQTT': cmd,
+            'Ativa':  $('schedEnabled').checked ? 'SIM' : 'NÃO',
+            'Início': $('schedStart').value,
+            'Parada': $('schedEnd').value,
+            'Dias':   diasStr,
         }, () => { publish(T.CMD, cmd); lastSchedMask = mask; showSuccess('Programação enviada ao ESP32!'); });
     });
 
     $('ligar-btn').addEventListener('click', () => {
         openModal('Deseja LIGAR ' + equipName + '?', {
             'Comando': 'Liga',
-            'Tópico':  T.CMD,
             'Ação':    'O equipamento será ligado imediatamente',
         }, () => { publish(T.CMD, 'Liga'); showSuccess('Comando LIGAR enviado!'); });
     });
@@ -836,7 +832,6 @@ function startMqtt(T, equipName) {
     $('desligar-btn').addEventListener('click', () => {
         openModal('Deseja DESLIGAR ' + equipName + '?', {
             'Comando': 'Desliga',
-            'Tópico':  T.CMD,
             'Ação':    'O equipamento será desligado imediatamente',
         }, () => { publish(T.CMD, 'Desliga'); showSuccess('Comando DESLIGAR enviado!'); });
     });
