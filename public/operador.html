@@ -207,53 +207,9 @@
             margin-bottom: 10px;
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--accent);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .back-button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .back-button:hover {
-            background: var(--secondary);
-        }
-
         @media (max-width: 768px) {
             .dashboard { grid-template-columns: 1fr; }
             .equipment-actions { flex-direction: column; }
-            .stats { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -267,21 +223,6 @@
             </div>
         </header>
 
-        <div class="stats" id="stats-container">
-            <div class="stat-card">
-                <span class="stat-number" id="total-equipments">0</span>
-                <span class="stat-label">Total de Equipamentos</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number" id="active-equipments">0</span>
-                <span class="stat-label">Equipamentos Ativos</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number" id="pivo-count">0</span>
-                <span class="stat-label">Pivôs Centrais</span>
-            </div>
-        </div>
-
         <div id="message-container"></div>
 
         <div class="dashboard" id="equipment-dashboard">
@@ -292,20 +233,14 @@
     </div>
 
     <script>
-        // Configuração da API
         const API_BASE_URL = window.location.origin;
 
         document.addEventListener('DOMContentLoaded', () => {
             const dashboard = document.getElementById('equipment-dashboard');
-            const loading = document.getElementById('loading');
             const messageContainer = document.getElementById('message-container');
-            const totalEquipments = document.getElementById('total-equipments');
-            const activeEquipments = document.getElementById('active-equipments');
-            const pivoCount = document.getElementById('pivo-count');
 
             let equipments = [];
 
-            // Função para mostrar mensagens
             function showMessage(message, type = 'success') {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
@@ -319,18 +254,6 @@
                 }, 5000);
             }
 
-            // Função para atualizar estatísticas
-            function updateStats() {
-                totalEquipments.textContent = equipments.length;
-                activeEquipments.textContent = equipments.length;
-                
-                const pivoCountValue = equipments.filter(eq => 
-                    eq.type === 'Pivô Central' || eq.type === 'pivo'
-                ).length;
-                pivoCount.textContent = pivoCountValue;
-            }
-
-            // Funções da API
             async function apiRequest(endpoint) {
                 try {
                     const response = await fetch(`${API_BASE_URL}/api${endpoint}`);
@@ -352,7 +275,6 @@
                     showLoading();
                     equipments = await apiRequest('/equipments');
                     render();
-                    updateStats();
                 } catch (error) {
                     showError('Falha ao carregar equipamentos. Tente atualizar a página.');
                 }
@@ -385,7 +307,6 @@
                     const card = document.createElement('div');
                     card.className = 'equipment-card';
                     
-                    // Ícones por tipo
                     let icon = 'fa-tint';
                     if (eq.type === 'Pivô Central') icon = 'fa-sync-alt';
                     else if (eq.type === 'linear') icon = 'fa-arrows-alt-h';
@@ -431,28 +352,23 @@
                     dashboard.appendChild(card);
                 });
 
-                // Adicionar event listeners para os botões
                 setupEventListeners();
             }
 
             function setupEventListeners() {
-                // Event delegation para os botões de acesso
                 dashboard.onclick = (e) => {
                     const target = e.target.closest('button');
                     if (!target) return;
 
                     const url = target.dataset.url;
                     if (url) {
-                        // ABRE NA MESMA GUIA (alteração principal)
                         window.location.href = url;
                     }
                 };
             }
 
-            // Iniciar carregamento
             loadEquipments();
 
-            // Atualizar a cada 30 segundos (opcional)
             setInterval(loadEquipments, 30000);
         });
     </script>
