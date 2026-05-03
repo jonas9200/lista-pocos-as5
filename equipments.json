@@ -1,15 +1,5 @@
 [
   {
-    "id": "1768587786191",
-    "name": "Poço 01",
-    "type": "Poço",
-    "location": "Água Santa V",
-    "url": "https://lista-pocos-as5-1.onrender.com",
-    "description": "",
-    "createdAt": "2026-01-16T18:23:06.191Z",
-    "updatedAt": "2026-05-03T00:04:55.771Z"
-  },
-  {
     "id": "1777768666384",
     "name": "Poço C2",
     "type": "Poço",
