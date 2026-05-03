@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGS Irrigação - Lista Poços </title>
+    <title>AGS Irrigação - Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* (MANTENHA TODO O CSS ANTERIOR - é o mesmo) */
         :root {
             --primary: #2e7d32;
             --secondary: #00695c;
@@ -18,12 +17,7 @@
             --info: #2196F3;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         body {
             background: linear-gradient(135deg, #fdbb2d, #1e3a8a, #1a2a6c);
@@ -48,14 +42,16 @@
             border-bottom: 2px solid var(--accent);
         }
 
-        h1 {
-            font-size: 2.5rem;
-            color: var(--accent);
-        }
+        h1 { font-size: 2.5rem; color: var(--accent); }
+        .subtitle { font-size: 1.2rem; opacity: 0.9; }
 
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
+        .github-info {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 0.9rem;
         }
 
         .dashboard {
@@ -71,7 +67,6 @@
             padding: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
-            cursor: pointer;
             position: relative;
         }
 
@@ -87,15 +82,9 @@
             margin-bottom: 15px;
         }
 
-        .equipment-name {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
+        .equipment-name { font-size: 1.4rem; font-weight: bold; color: var(--accent); }
 
-        .equipment-details {
-            margin-bottom: 15px;
-        }
+        .equipment-details { margin-bottom: 15px; }
 
         .equipment-detail {
             display: flex;
@@ -105,12 +94,23 @@
             border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
         }
 
-        .detail-label {
-            font-weight: bold;
-        }
+        .detail-label { font-weight: bold; }
+        .detail-value { color: var(--accent); }
 
-        .detail-value {
-            color: var(--accent);
+        /* URL gerada automaticamente */
+        .auto-url {
+            background: rgba(33,150,243,0.1);
+            border: 1px dashed rgba(33,150,243,0.4);
+            border-radius: 5px;
+            padding: 6px 10px;
+            font-size: 0.78rem;
+            color: rgba(33,150,243,0.8);
+            font-family: monospace;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            word-break: break-all;
         }
 
         .equipment-actions {
@@ -134,23 +134,17 @@
             justify-content: center;
         }
 
-        button i {
-            margin-right: 8px;
-        }
+        button i { margin-right: 8px; }
+        button:hover { background: var(--secondary); transform: translateY(-2px); }
 
-        button:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        .btn-danger { background: var(--danger); }
-        .btn-danger:hover { background: #d32f2f; }
+        .btn-danger  { background: var(--danger); }
+        .btn-danger:hover  { background: #d32f2f; }
         .btn-success { background: var(--success); }
         .btn-success:hover { background: #388E3C; }
         .btn-warning { background: var(--warning); color: #333; }
         .btn-warning:hover { background: #FFA000; }
-        .btn-info { background: var(--info); }
-        .btn-info:hover { background: #1976D2; }
+        .btn-info    { background: var(--info); }
+        .btn-info:hover    { background: #1976D2; }
 
         .add-equipment-card {
             display: flex;
@@ -170,18 +164,9 @@
             border-color: var(--accent);
         }
 
-        .add-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: var(--accent);
-        }
+        .add-icon { font-size: 3rem; margin-bottom: 15px; color: var(--accent); }
+        .add-text { font-size: 1.2rem; font-weight: bold; }
 
-        .add-text {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -208,18 +193,8 @@
             margin-bottom: 20px;
         }
 
-        .modal-title {
-            font-size: 1.5rem;
-            color: var(--accent);
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
+        .modal-title { font-size: 1.5rem; color: var(--accent); }
+        .close-modal { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
 
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
@@ -232,6 +207,17 @@
             background: rgba(255,255,255,0.1);
             color: white;
             font-size: 1rem;
+        }
+
+        .url-preview {
+            background: rgba(33,150,243,0.08);
+            border: 1px dashed rgba(33,150,243,0.4);
+            border-radius: 5px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            color: rgba(33,150,243,0.8);
+            font-family: monospace;
+            margin-top: 4px;
         }
 
         .form-actions { display: flex; gap: 10px; margin-top: 20px; }
@@ -253,18 +239,6 @@
             grid-column: 1 / -1;
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            grid-column: 1 / -1;
-            opacity: 0.7;
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-
         .success-message {
             background: var(--success);
             color: white;
@@ -274,13 +248,11 @@
             text-align: center;
         }
 
-        .github-info {
-            background: rgba(255,255,255,0.1);
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
+        .empty-state {
             text-align: center;
-            font-size: 0.9rem;
+            padding: 40px;
+            grid-column: 1 / -1;
+            opacity: 0.7;
         }
 
         @media (max-width: 768px) {
@@ -293,9 +265,9 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-tint"></i> AGS Irrigação</h1>
-            <p class="subtitle">Gerenciamento de Equipamentos</p>
+            <p class="subtitle">Painel Administrativo</p>
             <div class="github-info">
-                <i class="fab fa-github"></i> Dados salvos no GitHub
+                <i class="fab fa-github"></i> Dados salvos no GitHub · Painéis gerados automaticamente
             </div>
         </header>
 
@@ -321,7 +293,10 @@
 
                 <div class="form-group">
                     <label for="equipment-name">Nome do Equipamento</label>
-                    <input type="text" id="equipment-name" placeholder="Ex: Pivô Central 1" required>
+                    <input type="text" id="equipment-name" placeholder="Ex: Poço C3" required>
+                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-top:4px">
+                        <i class="fas fa-info-circle"></i> O último segmento do nome vira o ID do tópico MQTT. Ex: "Poço C3" → <code style="color:rgba(33,150,243,0.8)">as/poco/C3/...</code>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -329,8 +304,8 @@
                     <select id="equipment-type" required>
                         <option value="">Selecione</option>
                         <option value="Pivô Central">Pivô Central</option>
-                        <option value="linear">Linear</option>
-                        <option value="aspersor">Aspersor</option>
+                        <option value="Linear">Linear</option>
+                        <option value="Aspersor">Aspersor</option>
                         <option value="Poço">Poço</option>
                         <option value="Pluviômetro">Pluviômetro</option>
                     </select>
@@ -338,17 +313,19 @@
 
                 <div class="form-group">
                     <label for="equipment-location">Localização</label>
-                    <input type="text" id="equipment-location" placeholder="Fazenda São João">
-                </div>
-
-                <div class="form-group">
-                    <label for="equipment-url">URL do Painel</label>
-                    <input type="url" id="equipment-url" placeholder="https://painel-exemplo.com" required>
+                    <input type="text" id="equipment-location" placeholder="Ex: Água Santa V">
                 </div>
 
                 <div class="form-group">
                     <label for="equipment-description">Descrição</label>
                     <input type="text" id="equipment-description" placeholder="Descrição opcional">
+                </div>
+
+                <div class="form-group">
+                    <label>URL do Painel (gerada automaticamente)</label>
+                    <div class="url-preview" id="url-preview">
+                        <i class="fas fa-link"></i> Será gerada após salvar: <strong>/painel?id=&lt;ID&gt;</strong>
+                    </div>
                 </div>
 
                 <div class="form-actions">
@@ -363,120 +340,74 @@
     </div>
 
     <script>
-        // Configuração da API
         const API_BASE_URL = window.location.origin;
 
         document.addEventListener('DOMContentLoaded', () => {
-            const dashboard = document.getElementById('equipment-dashboard');
-            const modal = document.getElementById('equipment-modal');
-            const closeModal = document.getElementById('close-modal');
-            const cancelBtn = document.getElementById('cancel-btn');
-            const form = document.getElementById('equipment-form');
-            const title = document.getElementById('modal-title');
-            const loading = document.getElementById('loading');
-            const messageContainer = document.getElementById('message-container');
-            const submitBtn = document.getElementById('submit-btn');
+            const dashboard   = document.getElementById('equipment-dashboard');
+            const modal       = document.getElementById('equipment-modal');
+            const closeModal  = document.getElementById('close-modal');
+            const cancelBtn   = document.getElementById('cancel-btn');
+            const form        = document.getElementById('equipment-form');
+            const title       = document.getElementById('modal-title');
+            const msgCont     = document.getElementById('message-container');
+            const submitBtn   = document.getElementById('submit-btn');
             const submitSpinner = document.getElementById('submit-spinner');
-            const submitText = document.getElementById('submit-text');
+            const submitText  = document.getElementById('submit-text');
+            const urlPreview  = document.getElementById('url-preview');
 
             let equipments = [];
             let editing = null;
 
-            // Função para mostrar mensagens
-            function showMessage(message, type = 'success') {
-                messageContainer.innerHTML = `
-                    <div class="${type === 'success' ? 'success-message' : 'error-message'}">
-                        <i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation-triangle'}"></i>
-                        ${message}
-                    </div>
-                `;
-                setTimeout(() => {
-                    messageContainer.innerHTML = '';
-                }, 5000);
+            function showMessage(msg, type = 'success') {
+                msgCont.innerHTML = `<div class="${type === 'success' ? 'success-message' : 'error-message'}">
+                    <i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation-triangle'}"></i> ${msg}</div>`;
+                setTimeout(() => msgCont.innerHTML = '', 5000);
             }
 
-            // Funções da API
             async function apiRequest(endpoint, options = {}) {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/api${endpoint}`, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            ...options.headers
-                        },
-                        ...options
-                    });
-
-                    if (!response.ok) {
-                        const errorData = await response.json().catch(() => ({}));
-                        throw new Error(errorData.error || `Erro ${response.status}: ${response.statusText}`);
-                    }
-
-                    return await response.json();
-                } catch (error) {
-                    console.error('Erro na requisição:', error);
-                    showMessage(`Erro: ${error.message}`, 'error');
-                    throw error;
+                const response = await fetch(`${API_BASE_URL}/api${endpoint}`, {
+                    headers: { 'Content-Type': 'application/json', ...options.headers },
+                    ...options
+                });
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({}));
+                    throw new Error(err.error || `Erro ${response.status}`);
                 }
+                return await response.json();
             }
 
             async function loadEquipments() {
                 try {
-                    showLoading();
+                    dashboard.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Carregando...</div>';
                     equipments = await apiRequest('/equipments');
                     render();
-                } catch (error) {
-                    showError('Falha ao carregar equipamentos do GitHub.');
+                } catch {
+                    dashboard.innerHTML = '<div class="error-message">Falha ao carregar equipamentos.</div>';
                 }
-            }
-
-            async function saveEquipment(equipment) {
-                if (editing) {
-                    return await apiRequest(`/equipments/${editing}`, {
-                        method: 'PUT',
-                        body: JSON.stringify(equipment)
-                    });
-                } else {
-                    return await apiRequest('/equipments', {
-                        method: 'POST',
-                        body: JSON.stringify(equipment)
-                    });
-                }
-            }
-
-            async function deleteEquipment(id) {
-                return await apiRequest(`/equipments/${id}`, {
-                    method: 'DELETE'
-                });
-            }
-
-            function showLoading() {
-                dashboard.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Carregando equipamentos do GitHub...</div>';
-            }
-
-            function showError(message) {
-                dashboard.innerHTML = `<div class="error-message">${message}</div>`;
             }
 
             function render() {
                 dashboard.innerHTML = '';
-                
+
                 if (equipments.length === 0) {
-                    dashboard.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fab fa-github"></i>
-                            <p>Nenhum equipamento cadastrado no GitHub</p>
-                            <p style="margin-top: 10px; font-size: 0.9rem;">Clique em "Adicionar Equipamento" para começar</p>
-                        </div>`;
+                    dashboard.innerHTML = `<div class="empty-state">
+                        <i class="fab fa-github" style="font-size:3rem;margin-bottom:15px;display:block"></i>
+                        <p>Nenhum equipamento cadastrado</p></div>`;
                 }
 
                 equipments.forEach(eq => {
                     const card = document.createElement('div');
                     card.className = 'equipment-card';
+
                     let icon = 'fa-tint';
                     if (eq.type === 'Pivô Central') icon = 'fa-sync-alt';
-                    else if (eq.type === 'linear') icon = 'fa-arrows-alt-h';
-                    else if (eq.type === 'aspersor') icon = 'fa-shower';
-                    else if (eq.type === 'Poço') icon = 'fa-tint-slash';
+                    else if (eq.type === 'Linear')  icon = 'fa-arrows-alt-h';
+                    else if (eq.type === 'Aspersor') icon = 'fa-shower';
+                    else if (eq.type === 'Poço')     icon = 'fa-tint-slash';
+
+                    // Tópico MQTT derivado do nome
+                    const nameParts = eq.name.trim().split(/\s+/);
+                    const topicId = nameParts.length >= 2 ? nameParts[nameParts.length - 1] : nameParts[0];
 
                     card.innerHTML = `
                         <div class="equipment-header">
@@ -486,102 +417,90 @@
                             <div class="equipment-detail"><span class="detail-label">Tipo:</span><span class="detail-value">${eq.type}</span></div>
                             <div class="equipment-detail"><span class="detail-label">Local:</span><span class="detail-value">${eq.location || 'N/D'}</span></div>
                             ${eq.description ? `<div class="equipment-detail"><span class="detail-label">Descrição:</span><span class="detail-value">${eq.description}</span></div>` : ''}
-                            <div class="equipment-detail"><span class="detail-label">Criado em:</span><span class="detail-value">${new Date(eq.createdAt).toLocaleDateString()}</span></div>
+                            <div class="equipment-detail"><span class="detail-label">Criado em:</span><span class="detail-value">${new Date(eq.createdAt).toLocaleDateString('pt-BR')}</span></div>
+                        </div>
+                        <div class="auto-url">
+                            <i class="fas fa-broadcast-tower"></i>
+                            Tópico MQTT: <strong>as/poco/${topicId}/...</strong>
                         </div>
                         <div class="equipment-actions">
-                            <button class="btn-info" data-open="${eq.url}"><i class="fas fa-external-link-alt"></i> Acessar</button>
+                            <button class="btn-info"    data-open="${eq.id}"><i class="fas fa-external-link-alt"></i> Acessar</button>
                             <button class="btn-warning" data-edit="${eq.id}"><i class="fas fa-edit"></i> Editar</button>
-                            <button class="btn-danger" data-del="${eq.id}"><i class="fas fa-trash"></i> Remover</button>
+                            <button class="btn-danger"  data-del="${eq.id}"><i class="fas fa-trash"></i> Remover</button>
                         </div>`;
                     dashboard.appendChild(card);
                 });
 
-                // Adicionar card de adicionar
+                // Card adicionar
                 const addCard = document.createElement('div');
                 addCard.className = 'add-equipment-card';
                 addCard.id = 'add-equipment-btn';
-                addCard.innerHTML = `
-                    <div class="add-icon"><i class="fas fa-plus-circle"></i></div>
-                    <div class="add-text">Adicionar Equipamento</div>`;
+                addCard.innerHTML = `<div class="add-icon"><i class="fas fa-plus-circle"></i></div><div class="add-text">Adicionar Equipamento</div>`;
                 dashboard.appendChild(addCard);
 
-                // Adicionar event listeners
                 setupEventListeners();
             }
 
             function setupEventListeners() {
-                // Botão adicionar equipamento
                 document.getElementById('add-equipment-btn').onclick = () => {
                     form.reset();
                     editing = null;
                     title.textContent = 'Adicionar Equipamento';
+                    urlPreview.innerHTML = '<i class="fas fa-link"></i> Será gerada após salvar: <strong>/painel?id=&lt;ID&gt;</strong>';
                     modal.style.display = 'flex';
                 };
 
-                // Fechar modal
-                closeModal.onclick = cancelBtn.onclick = () => {
-                    modal.style.display = 'none';
-                };
+                closeModal.onclick = cancelBtn.onclick = () => modal.style.display = 'none';
 
-                // Submeter formulário
                 form.onsubmit = async (e) => {
                     e.preventDefault();
-                    
-                    // Mostrar loading no botão
                     submitSpinner.style.display = 'inline-block';
-                    submitText.textContent = 'Salvando no GitHub...';
+                    submitText.textContent = 'Salvando...';
                     submitBtn.disabled = true;
 
                     const data = {
-                        name: document.getElementById('equipment-name').value,
-                        type: document.getElementById('equipment-type').value,
-                        location: document.getElementById('equipment-location').value,
-                        url: document.getElementById('equipment-url').value,
+                        name:        document.getElementById('equipment-name').value,
+                        type:        document.getElementById('equipment-type').value,
+                        location:    document.getElementById('equipment-location').value,
                         description: document.getElementById('equipment-description').value
                     };
-                    
+
                     try {
-                        await saveEquipment(data);
+                        if (editing) {
+                            await apiRequest(`/equipments/${editing}`, { method: 'PUT', body: JSON.stringify(data) });
+                        } else {
+                            await apiRequest('/equipments', { method: 'POST', body: JSON.stringify(data) });
+                        }
                         await loadEquipments();
                         modal.style.display = 'none';
-                        showMessage(`Equipamento ${editing ? 'atualizado' : 'adicionado'} no GitHub com sucesso!`);
-                    } catch (error) {
-                        // Erro já foi mostrado
+                        showMessage(`Equipamento ${editing ? 'atualizado' : 'adicionado'} com sucesso!`);
+                    } catch (err) {
+                        showMessage(`Erro: ${err.message}`, 'error');
                     } finally {
-                        // Restaurar botão
                         submitSpinner.style.display = 'none';
                         submitText.textContent = 'Salvar no GitHub';
                         submitBtn.disabled = false;
                     }
                 };
 
-                // Event delegation para os botões dos cards
                 dashboard.onclick = async (e) => {
                     const target = e.target.closest('button');
                     if (!target) return;
-
-                    const id = target.dataset.del || target.dataset.edit || target.dataset.open;
-                    if (!id) return;
-
-                    const eq = equipments.find(x => x.id == id || x.url == id);
+                    const eq = equipments.find(x => x.id == (target.dataset.del || target.dataset.edit || target.dataset.open));
 
                     if (target.dataset.del) {
-                        if (confirm(`Excluir "${eq.name}" do GitHub?`)) {
-                            try {
-                                await deleteEquipment(id);
-                                await loadEquipments();
-                                showMessage('Equipamento excluído do GitHub com sucesso!');
-                            } catch (error) {
-                                // Erro já foi mostrado
-                            }
+                        if (confirm(`Excluir "${eq.name}"?`)) {
+                            await apiRequest(`/equipments/${eq.id}`, { method: 'DELETE' });
+                            await loadEquipments();
+                            showMessage('Equipamento excluído!');
                         }
                     } else if (target.dataset.edit) {
                         editing = eq.id;
-                        document.getElementById('equipment-name').value = eq.name;
-                        document.getElementById('equipment-type').value = eq.type;
-                        document.getElementById('equipment-location').value = eq.location;
-                        document.getElementById('equipment-url').value = eq.url;
+                        document.getElementById('equipment-name').value        = eq.name;
+                        document.getElementById('equipment-type').value        = eq.type;
+                        document.getElementById('equipment-location').value    = eq.location;
                         document.getElementById('equipment-description').value = eq.description;
+                        urlPreview.innerHTML = `<i class="fas fa-link"></i> URL atual: <strong>${eq.url}</strong>`;
                         title.textContent = 'Editar Equipamento';
                         modal.style.display = 'flex';
                     } else if (target.dataset.open) {
@@ -590,22 +509,7 @@
                 };
             }
 
-            // Iniciar carregamento
             loadEquipments();
-
-            // Testar conexão com a API
-            fetch(`${API_BASE_URL}/api/health`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log('✅ Conexão com API estabelecida:', data);
-                    if (data.github === 'Conectado') {
-                        showMessage('Conectado ao GitHub com sucesso!', 'success');
-                    }
-                })
-                .catch(error => {
-                    console.error('❌ Erro ao conectar com API:', error);
-                    showError('Não foi possível conectar com o servidor.', 'error');
-                });
         });
     </script>
 </body>
